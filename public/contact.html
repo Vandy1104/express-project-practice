@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <title>ExpressJS</title>
+  </head>
+  <body>
+    <h1 class="jumbotron text-white bg-success text-center">Welcome to Home Page of our Site!</h1>
+
+<!-- Nav -->
+<ul class="nav justify-content-center">
+  <li class="nav-item">
+    <a class="btn text-white" href="index.html">Home</a>
+  </li>
+  <li class="nav-item">
+    <a class="btn text-white" href="about.html">About</a>
+  </li>
+</ul>
+
+<h6 class="text-white text-center my-5">Contact Us</h6>
+
+<form class="container text-white bg-dark border jumbotron" action="sendForm" method="POST">
+    <label for="Username">Username</label>
+    <!-- Name attribute is required to send it to server and name should be same as ID -->
+    <input type="text" class="form-control" id="username" name="username" placeholder="username">
+
+    <br>
+
+    <label for="email">Email</label>
+    <input type="text" class="form-control" id="email" name="email" placeholder="email">
+
+    <br>
+
+    <input type="submit" id="submit" value="Submit">
+
+  </form>
+
+
+
+  </body>
+</html>
