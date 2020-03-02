@@ -2,6 +2,10 @@ const express = require('express');
 const app = express();
 const path = require('path');
 
+//JSON schemas (Mockaroo data files)
+const apiData = require('./people.json');
+const apiData1 = require('./cars.json');
+
 const port = 3000;
 
 app.use((req, res, next)=>{
@@ -28,12 +32,52 @@ app.get('/', (req, res)=>{
   res.sendFile(path.join(__dirname + 'public/about.html'));
 });
 
-const apiData = require('./people.json');
-
-//give access to apiData
-app.get('/people', (req,res,)=>{
-  res.json(apiData);
+app.get('/', (req, res)=>{
+  res.sendFile(path.join(__dirname + 'public/contact.html'));
 });
+
+
+
+//give access to apiData (Mockaroo JSON files)
+app.get('/people', (req,res)=>{
+  res.json(apiData);
+}); // people ends here
+
+app.get('/cars', (req,res)=>{
+  res.json(apiData1);
+});   // cars ends here
+
+
+//Filtering gender data from people JSON file
+app.get('/gender/g=:gender',(req,res)=>{
+  const genderParam = req.params.gender; //retrieves the parameter value requested by the user
+  if ((genderParam === 'male') || (genderParam === 'female')){
+    let filteredArray = [];//array to push the matching objects to user's value
+    for (let i = 0; i < apiData.length; i++) {
+      if (genderParam === apiData[i].gender.toLowerCase()){
+        filteredArray.push(apiData[i]);
+      }
+    }
+    res.send(filteredArray);
+  } else {
+    res.send('Invalid parameter');
+  }
+});
+
+// Accessing car owners data common between people & cars based on first_name
+app.get('apiData1/car_make=:first_name/apiData=:car_owns', (req, res)=>{
+  const nameParam = req.params.first_name;
+  const carParam = req.params.car_owns;
+
+  let filteredArray = [];
+  for(let i = 0; i < apiData1.length; i++) {
+    if ((nameParam.toLowerCase() === apiData1[i].first_name.toLowerCase()) && (carParam.toLowerCase() === apiData1[i].car_make.toLowerCase())) {
+      filteredArray.push(apiData1[i]);
+    }
+  }
+  res.send(filteredArray);
+});
+
 
 //Commenting out this part after setting route for public folder files.
 // app.get('/', (req, res)=> res.send('Hello World!'));
